@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Show amount of bombs
   function bombs(e) {
-    // e.preventDefault();
+    e.preventDefault();
     if (isGameOver) return;
     if (!input.value){
       input.value = 20;
