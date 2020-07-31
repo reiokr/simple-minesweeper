@@ -402,8 +402,19 @@ function saveTime() {
 
 // clear saved time list function
 function clearList() {
-  list.innerHTML = "";
-  localStorage.removeItem("time");
+  const a = confirm('Are you sure?')
+  if (a) {
+    if (list.childElementCount === 0) {
+      alert('Nothing to delete...');
+      return;
+    } 
+    else {
+      list.innerHTML = "";
+      localStorage.removeItem("time");
+      
+    }
+  }
+  return
 }
 
 // event listeners
