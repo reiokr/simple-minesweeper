@@ -195,6 +195,8 @@ document.addEventListener("DOMContentLoaded", () => {
         marker++;
       } else {
         square.classList.remove("marker");
+        square.innerHTML = "";
+
         marker--;
       }
     }
