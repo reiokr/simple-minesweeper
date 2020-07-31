@@ -1,0 +1,161 @@
+.container{
+  width: fit-content;
+  margin: 0 auto;
+}
+
+form{
+  font-size: 1.3rem;
+}
+
+input[type="number"]{
+  width: 50px;
+  height: 30px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 1.2rem;
+}
+
+.grid {
+  height: 400px;
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: grey;
+  cursor: default;
+}
+
+.grid div {
+  box-shadow: 1px 1px 1px rgb(233, 233, 233), -1px -1px 1px rgb(233, 233, 233);
+  height: 40px;
+  width: 40px;
+}
+
+.blow {
+  position: relative;
+  background-color: orange;
+}
+.blow::after {
+  position: absolute;
+  content: "\2620";
+  font-size: 2rem;
+  font-weight: bold;
+  top: -5px;
+  left: 3px;
+}
+
+.checked {
+  display: flex;
+  background: green;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.btn {
+  border: none;
+  padding: 5px 15px;
+  font-size: 1.3rem;
+  background-color: blueviolet;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+.btn:hover {
+  background-color: rgb(108, 9, 201);
+  outline: none;
+}
+
+.btn:active {
+  outline: none;
+}
+
+.marker {
+  display: flex;
+  position: relative;
+}
+.marker::after {
+  position: absolute;
+  content: "\2691";
+  left: 13px;
+  top: 8px;
+  font-size: 1.2rem !important;
+  color: red;
+}
+
+/* Timer styles */
+
+.col1 {
+  margin-top: 10px;
+  width: 400px;
+  min-width: fit-content;
+  background: rgb(235, 235, 235);
+  box-sizing: border-box;
+}
+
+p {
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.timer {
+  margin: 0 auto;
+  display: flex;
+  width: 100px;
+  height: 30px;
+
+  min-width: 200px;
+  justify-content: center;
+  
+}
+
+#hours {
+  display: inline;
+  margin-left: 10px;
+  font-size: 1.2rem;
+}
+
+.clear-list {
+  display: block;
+  background: lightgray;
+  padding: 5px;
+  padding-left: 10px;
+}
+
+.btn a {
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.col2 {
+  min-width: 100px;
+  width: 398px;
+  margin-top: 0;
+  height: auto;
+  border: solid 1px lightgray;
+  background: rgb(235, 235, 235);
+  font-size: 1.2rem;
+}
+
+.col2 ol li {
+  width: 80%;
+  padding: 5px 20px;
+}
+
+.col2 ol li:nth-of-type(odd) {
+  background: rgb(224, 224, 224);
+}
+
+.col2 ol li:nth-of-type(even) {
+  background: rgb(255, 255, 255);
+}
+

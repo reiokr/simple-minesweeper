@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to Minesweeper</h1>
+      <form>
+        <label for="bombs">How Many Bombs? (default 20)</label>
+        <input type="number" ><br>
+        <input class="btn" type="submit" value="Start Game">
+      </form>
+      <div class="grid"></div>
+        <div class="col1">
+          <!-- Timer -->
+          <div id="hours">00</div>
+          <span>h</span>
+          <div class="timer">
+            <p id="minutes" class="numbers">00</p>
+            <p>:</p>
+            <p id="seconds" class="numbers">00</p>
+            <p>:</p>
+            <p id="milliseconds" class="numbers">00</p>
+          </div>
+        </div>
+        <div class="col2">
+          <!-- List -->
+          <div>
+            <button class="btn" id="clear-list">Clear list</button>
+
+            <ol data-type="list"></ol>
+          </div>
+        </div>
+      </div>
+      
+    <script src="app.js"></script>
+  </body>
+</html>
