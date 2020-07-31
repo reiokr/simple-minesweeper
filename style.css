@@ -1,3 +1,8 @@
+:root{
+  --sq-width: 40px;
+  --amount: 10;
+}
+
 .container{
   width: fit-content;
   margin: 0 auto;
@@ -16,39 +21,43 @@ input[type="number"]{
 }
 
 .grid {
-  height: 400px;
-  width: 400px;
+  height: calc(var(--sq-width) * var(--amount));
+  width: calc(var(--sq-width) * var(--amount));
   display: flex;
   flex-wrap: wrap;
   background-color: grey;
   cursor: default;
+  display: none;
 }
 
 .grid div {
   box-shadow: 1px 1px 1px rgb(233, 233, 233), -1px -1px 1px rgb(233, 233, 233);
-  height: 40px;
-  width: 40px;
+  height: var(--sq-width);
+  width: var(--sq-width);
 }
 
 .blow {
   position: relative;
   background-color: orange;
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
 }
-.blow::after {
-  position: absolute;
-  content: "\2620";
-  font-size: 2rem;
+.bomb{
+  display: flex;
+  font-size: 1rem;
   font-weight: bold;
-  top: -5px;
-  left: 3px;
+  justify-content: center;
+  align-items: center;
 }
+
 
 .checked {
   display: flex;
-  background: green;
+  background: rgb(185, 185, 185);
   justify-content: center;
   align-items: center;
-
+  font-weight: bold;
 }
 
 .btn {
@@ -74,22 +83,17 @@ input[type="number"]{
 .marker {
   display: flex;
   position: relative;
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
 }
-.marker::after {
-  position: absolute;
-  content: "\2691";
-  left: 13px;
-  top: 8px;
-  font-size: 1.2rem !important;
-  color: red;
-}
+
 
 /* Timer styles */
 
 .col1 {
   margin-top: 10px;
-  width: 400px;
-  min-width: fit-content;
+  min-width: 400px;
   background: rgb(235, 235, 235);
   box-sizing: border-box;
 }
@@ -137,17 +141,17 @@ a:hover {
 }
 
 .col2 {
-  min-width: 100px;
-  width: 398px;
+  min-width: 398px;
   margin-top: 0;
   height: auto;
   border: solid 1px lightgray;
   background: rgb(235, 235, 235);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .col2 ol li {
-  width: 80%;
+  width: auto;
+  margin-right: 10px;
   padding: 5px 20px;
 }
 

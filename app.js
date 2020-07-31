@@ -2,42 +2,58 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.querySelector(".grid");
   const container = document.querySelector(".container");
   const form = document.querySelector("form");
-  const input = document.querySelector('input[type="number"]');
-  let width = 10;
+  const input = document.querySelector("#bomb");
+  const inputWidth = document.querySelector("#square");
   let marker = 0;
   let squares = [];
   let isGameOver = false;
- 
+
+  // how many squares
+  let width =
+    localStorage.getItem("rows and cols") || parseInt(inputWidth.value);
+  inputWidth.value = width;
+
   // how many bombs?
+  let bombAmount = localStorage.getItem("bombAmount") || parseInt(input.value);
+  input.value = bombAmount;
+
   form.addEventListener("submit", bombs);
 
   // Show amount of bombs
   function bombs(e) {
-    // e.preventDefault();
+    e.preventDefault();
     if (isGameOver) return;
-    if (!input.value){
-      input.value = 20;
-    }
-    if (input.value < 1 || input.value > width*width -1) return;
-
+    if (input.value < 1 || input.value > width * width - 1) return;
     const bombs = document.createElement("p");
     bombs.innerText = `Find all ${input.value} Bombs`;
     container.insertBefore(bombs, grid);
     form.style.display = "none";
+    localStorage.setItem("bombAmount", parseInt(input.value));
+    localStorage.setItem("rows and cols", parseInt(inputWidth.value));
+    document.documentElement.style.setProperty(
+      "--amount",
+      parseInt(inputWidth.value)
+    );
+    if (inputWidth.value > 30) {
+      document.documentElement.style.setProperty('--sq-width', 30 + "px");
+    }
+    grid.style.display = "flex";
     createBoard();
     startTimer();
   }
 
   //Create Board
+
   function createBoard() {
     bombAmount = parseInt(input.value);
+    width = parseInt(inputWidth.value);
 
     // get shuffled game array with random bombs
     const bombArray = Array(bombAmount).fill("bomb");
     const emptyArray = Array(width * width - bombAmount).fill("valid");
     const gameArray = emptyArray.concat(bombArray);
 
-    // const gameArray = [...emptyArray,...bombArray]
+    // const gameArray = [...emptyArray, ...bombArray];
     const suffledArray = gameArray.sort(() => Math.random() - 0.5);
 
     for (let i = 0; i < width * width; i++) {
@@ -50,9 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // normal click
       square.addEventListener("click", (e) => {
         if (isGameOver) return;
-
         click(square);
-        checkForWin();
       });
 
       // right click
@@ -73,33 +87,41 @@ document.addEventListener("DOMContentLoaded", () => {
         if (i > 0 && !isLeftEdge && squares[i - 1].classList.contains("bomb"))
           total++;
         if (
-          i > 9 &&
+          i > width - 1 &&
           !isRightEdge &&
           squares[i + 1 - width].classList.contains("bomb")
         )
           total++;
-        if (i > 10 && squares[i - width].classList.contains("bomb")) total++;
+        if (i > width && squares[i - width].classList.contains("bomb")) total++;
         if (
-          i > 11 &&
+          i > width + 1 &&
           !isLeftEdge &&
           squares[i - 1 - width].classList.contains("bomb")
         )
           total++;
-        if (i < 98 && !isRightEdge && squares[i + 1].classList.contains("bomb"))
+        if (
+          i < width * width - 2 &&
+          !isRightEdge &&
+          squares[i + 1].classList.contains("bomb")
+        )
           total++;
         if (
-          i < 90 &&
+          i < width * width - width &&
           !isLeftEdge &&
           squares[i - 1 + width].classList.contains("bomb")
         )
           total++;
         if (
-          i < 88 &&
+          i < width * width - width - 2 &&
           !isRightEdge &&
           squares[i + 1 + width].classList.contains("bomb")
         )
           total++;
-        if (i < 89 && squares[i + width].classList.contains("bomb")) total++;
+        if (
+          i < width * width - width - 1 &&
+          squares[i + width].classList.contains("bomb")
+        )
+          total++;
 
         squares[i].setAttribute("data", total);
       }
@@ -127,22 +149,22 @@ document.addEventListener("DOMContentLoaded", () => {
         square.innerHTML = total;
         switch (total) {
           case 1:
-            square.style.color = "yellow";
+            square.style.color = "maroon";
             break;
           case 2:
-            square.style.color = "navyblue";
+            square.style.color = "blue";
             break;
           case 3:
-            square.style.color = "magenta";
+            square.style.color = "green";
             break;
           case 4:
-            square.style.color = "red";
+            square.style.color = "indigo";
             break;
           case 5:
-            square.style.color = "violet";
+            square.style.color = "darkviolet";
             break;
           case 6:
-            square.style.color = "blue";
+            square.style.color = "teal";
             break;
 
           default:
@@ -158,10 +180,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // right click square action
   function rightClick(square) {
     if (isGameOver) return;
-    if (square.classList.contains("checked")) return;
-    if (!square.classList.contains("checked") && marker < bombAmount) {
+    if (
+      square.classList.contains("checked") &&
+      !square.classList.contains("marked")
+    )
+      return;
+    if (
+      (!square.classList.contains("checked") && marker < bombAmount) ||
+      square.classList.contains("marker")
+    ) {
       if (!square.classList.contains("marker")) {
         square.classList.add("marker");
+        square.innerHTML = "🚩";
         marker++;
       } else {
         square.classList.remove("marker");
@@ -181,37 +211,37 @@ document.addEventListener("DOMContentLoaded", () => {
         const newSquare = document.getElementById(newId);
         click(newSquare);
       }
-      if (currentId > 9 && !isRightEdge) {
+      if (currentId > width - 1 && !isRightEdge) {
         const newId = squares[parseInt(currentId) + 1 - width].id;
         const newSquare = document.getElementById(newId);
         click(newSquare);
       }
-      if (currentId > 10) {
+      if (currentId > width) {
         const newId = squares[parseInt(currentId) - width].id;
         const newSquare = document.getElementById(newId);
         click(newSquare);
       }
-      if (currentId > 11 && !isLeftEdge) {
+      if (currentId > width * 1 && !isLeftEdge) {
         const newId = squares[parseInt(currentId) - 1 - width].id;
         const newSquare = document.getElementById(newId);
         click(newSquare);
       }
-      if (currentId < 98 && !isRightEdge) {
+      if (currentId < width * width - 2 && !isRightEdge) {
         const newId = squares[parseInt(currentId) + 1].id;
         const newSquare = document.getElementById(newId);
         click(newSquare);
       }
-      if (currentId < 90 && !isLeftEdge) {
+      if (currentId < width * width - width && !isLeftEdge) {
         const newId = squares[parseInt(currentId) - 1 + width].id;
         const newSquare = document.getElementById(newId);
         click(newSquare);
       }
-      if (currentId < 88 && !isRightEdge) {
+      if (currentId < width * width - width - 2 && !isRightEdge) {
         const newId = squares[parseInt(currentId) + 1 + width].id;
         const newSquare = document.getElementById(newId);
         click(newSquare);
       }
-      if (currentId < 89) {
+      if (currentId < width * width - width - 1) {
         const newId = squares[parseInt(currentId) + width].id;
         const newSquare = document.getElementById(newId);
         click(newSquare);
@@ -226,6 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // show all bombs
     document.querySelectorAll(".bomb").forEach((bomb) => {
       bomb.classList.add("blow");
+      bomb.innerHTML = "💣";
     });
     message("Game Over!");
     resetTimer();
@@ -236,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = document.createElement("h1");
     message.textContent = msg;
     const newGameBtn = document.createElement("button");
-    newGameBtn.classList.add('btn');
+    newGameBtn.classList.add("btn");
     newGameBtn.textContent = "New Game";
 
     container.insertBefore(message, grid.nextElementSibling);
@@ -245,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
       grid.nextElementSibling.nextElementSibling
     );
     newGameBtn.addEventListener("click", () => window.location.reload());
-    let bombAmount = 0
+    let bombAmount = 0;
   }
 
   // check for win
@@ -272,6 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // list stored times
   getTimeFromLs();
 });
+
 //////////////////////////////////////////////////////////////////////////////////////
 // game timer with local storage
 
@@ -335,16 +367,20 @@ function pad(num) {
 // get time from local storage
 function getTimeFromLs() {
   ls.forEach((time) => {
-    list.innerHTML += `<li>${time.b} bombs - Time ${time.h}h : ${time.m}m : ${time.s}s</li>`;
+    list.innerHTML += `<li>${time.b} Bombs - ${time.sq} squares  -  Time: ${time.h} : ${time.m} : ${time.s}</li>`;
   });
 }
 
 // save current time
 function saveTime() {
   // add new time to list
+  bombAmount = localStorage.getItem("bombAmount");
+  width = localStorage.getItem("rows and cols");
   const li = document.createElement("li");
   const timerInput = document.createTextNode(
-    `${bombAmount} bombs - Time ${hours.innerText}h : ${minInput.innerText}m : ${secInput.innerText}s`
+    `${bombAmount} Bombs - ${width * width} Squares  -  Time: ${
+      hours.innerText
+    } : ${minInput.innerText} : ${secInput.innerText}`
   );
   list.appendChild(li);
   li.appendChild(timerInput);
@@ -352,6 +388,7 @@ function saveTime() {
   // add new time to local storage
   const storedTime = {
     b: bombAmount,
+    sq: width * width,
     h: hours.innerText,
     m: minInput.innerText,
     s: secInput.innerText,
