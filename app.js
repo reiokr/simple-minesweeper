@@ -22,20 +22,30 @@ document.addEventListener("DOMContentLoaded", () => {
   // Show amount of bombs
   function bombs(e) {
     e.preventDefault();
+    let width = parseInt(inputWidth.value);
     if (isGameOver) return;
-    if (input.value < 1 || input.value > width * width - 1) return;
+    if (input.value < 1 || input.value > width * width - 1) {
+      if (form.lastElementChild.id === "error") return;
+      const p = document.createElement("p");
+      p.id = "error";
+      p.innerText = "Bombs must be less than squares... ";
+      p.style.color = "red";
+      form.appendChild(p);
+      setTimeout(() => {
+        p.remove();
+      }, 3000);
+      return;
+    }
     const bombs = document.createElement("p");
     bombs.innerText = `Find all ${input.value} Bombs`;
+    bombs.className = "bombs";
     container.insertBefore(bombs, grid);
     form.style.display = "none";
     localStorage.setItem("bombAmount", parseInt(input.value));
-    localStorage.setItem("rows and cols", parseInt(inputWidth.value));
-    document.documentElement.style.setProperty(
-      "--amount",
-      parseInt(inputWidth.value)
-    );
+    localStorage.setItem("rows and cols", width);
+    document.documentElement.style.setProperty("--amount", width);
     if (inputWidth.value > 30) {
-      document.documentElement.style.setProperty('--sq-width', 30 + "px");
+      document.documentElement.style.setProperty("--sq-width", 30 + "px");
     }
     grid.style.display = "flex";
     createBoard();
@@ -402,19 +412,17 @@ function saveTime() {
 
 // clear saved time list function
 function clearList() {
-  const a = confirm('Are you sure?')
+  const a = confirm("Are you sure?");
   if (a) {
     if (list.childElementCount === 0) {
-      alert('Nothing to delete...');
+      alert("Nothing to delete...");
       return;
-    } 
-    else {
+    } else {
       list.innerHTML = "";
       localStorage.removeItem("time");
-      
     }
   }
-  return
+  return;
 }
 
 // event listeners

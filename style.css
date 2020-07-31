@@ -1,23 +1,51 @@
-:root{
+:root {
   --sq-width: 40px;
   --amount: 10;
+  --border-radius: 5px;
+  --color1: rgb(241, 233, 220);
+  --grid-shadow: rgb(189, 189, 189);
+}
+body {
+  font-family: "montserrat", Arial, Helvetica, sans-serif;
 }
 
-.container{
+.container {
   width: fit-content;
-  margin: 0 auto;
+  height: auto;
+  margin: 50px auto;
+  padding: 20px;
+  background: rgb(128, 148, 238);
+  border-radius: var(--border-radius);
+  box-shadow: 2px 2px 8px 2px gray;
 }
 
-form{
+h1 {
+  text-align: center;
+  margin-top: 0;
+  color: rgb(59, 59, 59);
+}
+
+form {
   font-size: 1.3rem;
 }
 
-input[type="number"]{
+input[type="number"] {
   width: 50px;
   height: 30px;
   margin-bottom: 10px;
   margin-left: 10px;
   font-size: 1.2rem;
+  background-color: var(--color1);
+  text-indent: 5px;
+  border: none;
+  border-radius: var(--border-radius);
+  overflow: auto;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+  transform: scale(1.5);
 }
 
 .grid {
@@ -28,12 +56,20 @@ input[type="number"]{
   background-color: grey;
   cursor: default;
   display: none;
+  margin: 20px auto;
+  box-shadow: 1px 1px 6px 1px white, -1px -1px 6px 1px white;
 }
 
 .grid div {
-  box-shadow: 1px 1px 1px rgb(233, 233, 233), -1px -1px 1px rgb(233, 233, 233);
+  box-shadow: 1px 1px 1px var(--grid-shadow), -1px -1px 1px var(--grid-shadow);
   height: var(--sq-width);
   width: var(--sq-width);
+}
+
+.bombs {
+  text-align: center;
+  font-weight: 600;
+  color: var(--color1);
 }
 
 .blow {
@@ -43,18 +79,18 @@ input[type="number"]{
   justify-content: center;
   align-items: center;
 }
-.bomb{
+.bomb {
   display: flex;
   font-size: 1rem;
   font-weight: bold;
   justify-content: center;
   align-items: center;
+git add *
 }
-
 
 .checked {
   display: flex;
-  background: rgb(185, 185, 185);
+  background: var(--color1);
   justify-content: center;
   align-items: center;
   font-weight: bold;
@@ -88,14 +124,15 @@ input[type="number"]{
   align-items: center;
 }
 
-
 /* Timer styles */
 
 .col1 {
   margin-top: 10px;
   min-width: 400px;
-  background: rgb(235, 235, 235);
+  background: var(--color1);
   box-sizing: border-box;
+  border-top-right-radius: var(--border-radius);
+  border-top-left-radius: var(--border-radius);
 }
 
 p {
@@ -112,7 +149,6 @@ p {
 
   min-width: 200px;
   justify-content: center;
-  
 }
 
 #hours {
@@ -141,11 +177,13 @@ a:hover {
 }
 
 .col2 {
+  border-bottom-right-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
   min-width: 398px;
   margin-top: 0;
   height: auto;
   border: solid 1px lightgray;
-  background: rgb(235, 235, 235);
+  background: var(--color1);
   font-size: 1.1rem;
 }
 
@@ -154,12 +192,11 @@ a:hover {
   margin-right: 10px;
   padding: 5px 20px;
 }
-
+/* 
 .col2 ol li:nth-of-type(odd) {
   background: rgb(224, 224, 224);
 }
 
 .col2 ol li:nth-of-type(even) {
-  background: rgb(255, 255, 255);
-}
-
+  background: rgb(238, 238, 238);
+} */
